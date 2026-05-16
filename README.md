@@ -8,15 +8,15 @@ Reimplementação livre do CPU-Z em Tauri, Rust e Vue.
 
 Baixe a versão mais recente na [página de Releases](https://github.com/oGabrielSilva/inspectre/releases/latest).
 
-| Plataforma   | Arquivo                            |
-| ------------ | ---------------------------------- |
-| Windows x64  | `Inspectre_x.y.z_x64-setup.exe`    |
-| Windows x64  | `Inspectre_x.y.z_x64.msi`          |
+| Plataforma    | Arquivo                           |
+| ------------- | --------------------------------- |
+| Windows x64   | `Inspectre_x.y.z_x64-setup.exe`   |
+| Windows x64   | `Inspectre_x.y.z_x64.msi`         |
 | Windows ARM64 | `Inspectre_x.y.z_arm64-setup.exe` |
 | Windows ARM64 | `Inspectre_x.y.z_arm64.msi`       |
-| Linux (deb)  | `inspectre_x.y.z_amd64.deb`        |
-| Linux (rpm)  | `inspectre-x.y.z-1.x86_64.rpm`     |
-| Linux        | `inspectre_x.y.z_amd64.AppImage`   |
+| Linux (deb)   | `inspectre_x.y.z_amd64.deb`       |
+| Linux (rpm)   | `inspectre-x.y.z-1.x86_64.rpm`    |
+| Linux         | `inspectre_x.y.z_amd64.AppImage`  |
 
 Binário não assinado. Na primeira execução no Windows aparece o aviso "Windows protegeu seu PC". Clique em **Mais informações** e depois em **Executar mesmo assim**.
 
