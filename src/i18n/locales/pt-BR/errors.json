@@ -1,0 +1,18 @@
+{
+  "sensor_unavailable": {
+    "title": "Sensor indisponível",
+    "description": "Não foi possível ler o sensor solicitado."
+  },
+  "wmi": {
+    "title": "Falha ao consultar o sistema",
+    "description": "A consulta de inventário do Windows não respondeu."
+  },
+  "probe": {
+    "title": "Falha na leitura",
+    "description": "Não foi possível obter os dados do componente."
+  },
+  "internal": {
+    "title": "Erro interno",
+    "description": "Algo deu errado. Tente novamente."
+  }
+}

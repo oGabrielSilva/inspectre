@@ -3,6 +3,9 @@ import type { NavigationMenuItem } from '@nuxt/ui';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+import SectionPlaceholder from '@/components/features/SectionPlaceholder.vue';
+import CpuPage from '@/components/features/cpu/CpuPage.vue';
+
 type Section = 'cpu' | 'mainboard' | 'memory' | 'graphics' | 'bench';
 
 const { t } = useI18n();
@@ -18,6 +21,15 @@ const sections = computed(() => [
   { id: 'graphics' as Section, label: t('shell.sections.graphics'), icon: 'i-lucide-monitor' },
   { id: 'bench' as Section, label: t('shell.sections.bench'), icon: 'i-lucide-gauge' },
 ]);
+
+const sectionComponent = computed(() => {
+  switch (active.value) {
+    case 'cpu':
+      return CpuPage;
+    default:
+      return SectionPlaceholder;
+  }
+});
 
 const navItems = computed<NavigationMenuItem[]>(() => {
   const query = filter.value.trim().toLowerCase();
@@ -66,7 +78,9 @@ const navItems = computed<NavigationMenuItem[]>(() => {
           <span class="font-medium">{{ t(`shell.sections.${active}`) }}</span>
         </header>
 
-        <main class="flex-1 overflow-auto" />
+        <main class="flex-1 overflow-auto">
+          <component :is="sectionComponent" />
+        </main>
       </div>
     </div>
   </UApp>

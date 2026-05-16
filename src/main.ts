@@ -7,6 +7,8 @@ import ui from '@nuxt/ui/vue-plugin';
 
 import App from '@/App.vue';
 import common from '@/i18n/locales/pt-BR/common.json';
+import cpu from '@/i18n/locales/pt-BR/cpu.json';
+import errors from '@/i18n/locales/pt-BR/errors.json';
 import shell from '@/i18n/locales/pt-BR/shell.json';
 
 const router = createRouter({
@@ -19,7 +21,7 @@ const i18n = createI18n({
   locale: 'pt-BR',
   fallbackLocale: 'pt-BR',
   messages: {
-    'pt-BR': { common, shell },
+    'pt-BR': { common, cpu, errors, shell },
   },
 });
 

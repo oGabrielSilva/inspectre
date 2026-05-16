@@ -1,0 +1,65 @@
+{
+  "title": "Processador",
+  "sections": {
+    "processor": "Processador",
+    "cores": "Núcleos e threads",
+    "cache": "Cache",
+    "clock": "Frequência",
+    "usage": "Uso",
+    "sensors": "Sensores"
+  },
+  "fields": {
+    "name": "Modelo",
+    "vendor": "Fabricante",
+    "codename": "Codinome",
+    "socket": "Socket",
+    "process": "Processo",
+    "revision": "Revisão",
+    "family": "Família",
+    "model": "Modelo (ID)",
+    "stepping": "Stepping",
+    "extFamily": "Família estendida",
+    "extModel": "Modelo estendido",
+    "cores": "Núcleos físicos",
+    "threads": "Threads",
+    "hyperthreading": "Hyperthreading",
+    "virtualization": "Virtualização",
+    "instructions": "Conjuntos de instruções",
+    "tdp": "TDP",
+    "cache": {
+      "l1Data": "L1 dados",
+      "l1Inst": "L1 instrução",
+      "l2": "L2",
+      "l3": "L3",
+      "ways": "vias",
+      "lineSize": "linha"
+    },
+    "clock": {
+      "base": "Base",
+      "current": "Atual",
+      "max": "Máxima",
+      "bus": "Barramento",
+      "multiplier": "Multiplicador"
+    },
+    "usage": {
+      "average": "Uso médio",
+      "perCore": "Por núcleo",
+      "core": "Núcleo {n}"
+    },
+    "sensors": {
+      "temperature": "Temperatura",
+      "uptime": "Tempo ligado"
+    }
+  },
+  "states": {
+    "yes": "Sim",
+    "no": "Não",
+    "supported": "Suportada",
+    "unsupported": "Não suportada",
+    "active": "Ativo",
+    "inactive": "Inativo"
+  },
+  "actions": {
+    "refresh": "Atualizar"
+  }
+}

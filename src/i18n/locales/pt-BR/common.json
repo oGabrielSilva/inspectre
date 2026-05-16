@@ -7,6 +7,7 @@
   },
   "states": {
     "loading": "Carregando…",
-    "unavailable": "N/A"
+    "unavailable": "N/A",
+    "placeholder": "Em construção."
   }
 }
