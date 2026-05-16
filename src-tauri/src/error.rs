@@ -14,6 +14,9 @@ pub enum InspectreError {
     #[error("falha no probe {domain}: {message}")]
     Probe { domain: String, message: String },
 
+    #[error("falha ao capturar a tela: {message}")]
+    Capture { message: String },
+
     #[error("erro interno: {0}")]
     Internal(String),
 }

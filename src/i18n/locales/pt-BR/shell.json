@@ -10,5 +10,13 @@
   "search": {
     "placeholder": "Buscar"
   },
-  "toggleSidebar": "Alternar menu"
+  "toggleSidebar": "Alternar menu",
+  "capture": {
+    "trigger": "Capturar tela",
+    "open": "Abrir",
+    "success": {
+      "title": "Tela salva",
+      "description": "Arquivo salvo em {path}."
+    }
+  }
 }

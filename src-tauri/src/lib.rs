@@ -12,10 +12,14 @@ pub fn run() {
     log::init();
 
     tauri::Builder::default()
+        .plugin(tauri_plugin_dialog::init())
+        .plugin(tauri_plugin_opener::init())
         .manage(CpuLiveState::default())
         .manage(MemoryLiveState::default())
         .invoke_handler(tauri::generate_handler![
             commands::bench::run_bench,
+            commands::capture::capture_window,
+            commands::capture::save_capture,
             commands::cpu::cpu_info,
             commands::cpu::start_cpu_live_stream,
             commands::cpu::stop_cpu_live_stream,

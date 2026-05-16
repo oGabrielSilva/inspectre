@@ -14,5 +14,9 @@
   "internal": {
     "title": "Erro interno",
     "description": "Algo deu errado. Tente novamente."
+  },
+  "capture": {
+    "title": "Não foi possível capturar a tela",
+    "description": "Verifique se a janela não está minimizada e tente novamente."
   }
 }

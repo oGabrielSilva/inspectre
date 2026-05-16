@@ -1,9 +1,16 @@
 import { useI18n } from 'vue-i18n';
 
+type FeedbackAction = {
+  icon?: string;
+  label: string;
+  onClick: (e?: Event) => void;
+};
+
 type FeedbackInput = {
   title?: string;
   description?: string;
   code?: string;
+  actions?: FeedbackAction[];
 };
 
 type ResolvedFeedback = {
@@ -30,18 +37,23 @@ export function useFeedback() {
     };
   }
 
+  function payload(input: FeedbackInput, color: 'success' | 'error' | 'warning' | 'info') {
+    const base = { ...resolve(input), color };
+    return input.actions ? { ...base, actions: input.actions } : base;
+  }
+
   return {
     success(input: FeedbackInput) {
-      toast.add({ ...resolve(input), color: 'success' });
+      toast.add(payload(input, 'success'));
     },
     error(input: FeedbackInput) {
-      toast.add({ ...resolve(input), color: 'error' });
+      toast.add(payload(input, 'error'));
     },
     warning(input: FeedbackInput) {
-      toast.add({ ...resolve(input), color: 'warning' });
+      toast.add(payload(input, 'warning'));
     },
     info(input: FeedbackInput) {
-      toast.add({ ...resolve(input), color: 'info' });
+      toast.add(payload(input, 'info'));
     },
   };
 }
