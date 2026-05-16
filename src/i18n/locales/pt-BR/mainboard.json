@@ -1,0 +1,42 @@
+{
+  "title": "Placa-mãe",
+  "sections": {
+    "board": "Placa-mãe",
+    "system": "Sistema",
+    "bios": "BIOS",
+    "security": "Segurança"
+  },
+  "fields": {
+    "manufacturer": "Fabricante",
+    "product": "Modelo",
+    "version": "Versão",
+    "serial": "Número de série",
+    "chassisManufacturer": "Fabricante do sistema",
+    "chassisModel": "Modelo do sistema",
+    "bios": {
+      "vendor": "Fornecedor",
+      "version": "Versão",
+      "smbiosVersion": "SMBIOS",
+      "releaseDate": "Data de lançamento",
+      "firmwareType": "Modo de firmware"
+    },
+    "security": {
+      "secureBoot": "Secure Boot",
+      "tpmPresent": "TPM presente",
+      "tpmEnabled": "TPM habilitado",
+      "tpmSpecVersion": "Versão do TPM"
+    }
+  },
+  "states": {
+    "enabled": "Habilitado",
+    "disabled": "Desabilitado",
+    "present": "Presente",
+    "absent": "Ausente",
+    "bios": "BIOS legado",
+    "uefi": "UEFI",
+    "unknown": "Desconhecido"
+  },
+  "actions": {
+    "refresh": "Atualizar"
+  }
+}

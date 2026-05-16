@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n';
 
 import SectionPlaceholder from '@/components/features/SectionPlaceholder.vue';
 import CpuPage from '@/components/features/cpu/CpuPage.vue';
+import MainboardPage from '@/components/features/mainboard/MainboardPage.vue';
 
 type Section = 'cpu' | 'mainboard' | 'memory' | 'graphics' | 'bench';
 
@@ -26,6 +27,8 @@ const sectionComponent = computed(() => {
   switch (active.value) {
     case 'cpu':
       return CpuPage;
+    case 'mainboard':
+      return MainboardPage;
     default:
       return SectionPlaceholder;
   }
