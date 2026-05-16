@@ -9,6 +9,7 @@ use winreg::RegKey;
 use wmi::WMIConnection;
 
 use crate::error::InspectreError;
+use crate::util::format_cim_date;
 
 pub fn read_snapshot() -> Result<MainboardInfo, InspectreError> {
     let baseboard = read_baseboard().unwrap_or_else(|err| {
@@ -33,7 +34,7 @@ pub fn read_snapshot() -> Result<MainboardInfo, InspectreError> {
         release_date: bios_row
             .as_ref()
             .and_then(|b| b.release_date.as_deref())
-            .and_then(format_smbios_date),
+            .and_then(format_cim_date),
         firmware_type: read_firmware_type(),
     };
 
@@ -105,16 +106,6 @@ fn smbios_version_string(b: &BiosRow) -> Option<String> {
         (Some(major), Some(minor)) => Some(format!("{major}.{minor}")),
         _ => None,
     }
-}
-
-fn format_smbios_date(raw: &str) -> Option<String> {
-    if raw.len() < 8 {
-        return None;
-    }
-    let year = raw.get(0..4)?;
-    let month = raw.get(4..6)?;
-    let day = raw.get(6..8)?;
-    Some(format!("{year}-{month}-{day}"))
 }
 
 fn read_firmware_type() -> FirmwareType {

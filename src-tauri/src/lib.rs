@@ -2,6 +2,7 @@ mod commands;
 mod error;
 mod log;
 mod probes;
+mod util;
 
 use commands::cpu::CpuLiveState;
 use commands::memory::MemoryLiveState;
@@ -17,6 +18,7 @@ pub fn run() {
             commands::cpu::cpu_info,
             commands::cpu::start_cpu_live_stream,
             commands::cpu::stop_cpu_live_stream,
+            commands::graphics::graphics_info,
             commands::mainboard::mainboard_info,
             commands::memory::memory_info,
             commands::memory::start_memory_live_stream,
