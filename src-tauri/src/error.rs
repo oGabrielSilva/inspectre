@@ -21,6 +21,7 @@ pub enum InspectreError {
     Internal(String),
 }
 
+#[cfg(windows)]
 impl From<wmi::WMIError> for InspectreError {
     fn from(err: wmi::WMIError) -> Self {
         Self::Wmi {

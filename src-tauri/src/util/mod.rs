@@ -1,3 +1,4 @@
+#[cfg(windows)]
 pub fn format_cim_date(raw: &str) -> Option<String> {
     if raw.len() < 8 {
         return None;

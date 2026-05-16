@@ -2,14 +2,36 @@ mod types;
 
 pub use types::{ChannelConfig, ChannelInfo, MemoryInfo, MemoryLiveTick, MemoryModule};
 
+#[cfg(windows)]
 use std::collections::HashSet;
 
+#[cfg(windows)]
 use serde::Deserialize;
 use sysinfo::System;
+#[cfg(windows)]
 use wmi::WMIConnection;
 
 use crate::error::InspectreError;
 
+#[cfg(not(windows))]
+pub fn read_snapshot() -> Result<MemoryInfo, InspectreError> {
+    let mut sys = System::new();
+    sys.refresh_memory();
+    Ok(MemoryInfo {
+        total_bytes: sys.total_memory(),
+        max_supported_bytes: None,
+        slots_total: 0,
+        slots_populated: 0,
+        ecc_supported: false,
+        channels: ChannelInfo {
+            configuration: ChannelConfig::Unknown,
+            detected: 0,
+        },
+        modules: Vec::new(),
+    })
+}
+
+#[cfg(windows)]
 pub fn read_snapshot() -> Result<MemoryInfo, InspectreError> {
     let modules = read_modules().unwrap_or_else(|err| {
         tracing::warn!(?err, "Win32_PhysicalMemory indisponível");
@@ -69,6 +91,7 @@ pub fn read_live_tick() -> MemoryLiveTick {
     tick
 }
 
+#[cfg(windows)]
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "PascalCase")]
 struct PhysicalMemoryRow {
@@ -88,6 +111,7 @@ struct PhysicalMemoryRow {
     configured_voltage: Option<u32>,
 }
 
+#[cfg(windows)]
 fn read_modules() -> Result<Vec<MemoryModule>, InspectreError> {
     let con = WMIConnection::new()?;
     let rows: Vec<PhysicalMemoryRow> = con.raw_query(
@@ -99,6 +123,7 @@ fn read_modules() -> Result<Vec<MemoryModule>, InspectreError> {
     Ok(rows.into_iter().map(row_to_module).collect())
 }
 
+#[cfg(windows)]
 fn row_to_module(row: PhysicalMemoryRow) -> MemoryModule {
     let memory_type = row
         .smbiosmemory_type
@@ -135,6 +160,7 @@ fn row_to_module(row: PhysicalMemoryRow) -> MemoryModule {
     }
 }
 
+#[cfg(windows)]
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "PascalCase")]
 struct MemoryArrayRow {
@@ -144,6 +170,7 @@ struct MemoryArrayRow {
     memory_error_correction: Option<u16>,
 }
 
+#[cfg(windows)]
 fn read_memory_array() -> Result<Option<MemoryArrayRow>, InspectreError> {
     let con = WMIConnection::new()?;
     let rows: Vec<MemoryArrayRow> = con.raw_query(
@@ -153,6 +180,7 @@ fn read_memory_array() -> Result<Option<MemoryArrayRow>, InspectreError> {
     Ok(rows.into_iter().next())
 }
 
+#[cfg(windows)]
 fn detect_channels(modules: &[MemoryModule]) -> ChannelInfo {
     let mut detected_letters: HashSet<char> = HashSet::new();
 
@@ -197,6 +225,7 @@ fn detect_channels(modules: &[MemoryModule]) -> ChannelInfo {
     }
 }
 
+#[cfg(windows)]
 fn map_smbios_memory_type(code: u32) -> Option<&'static str> {
     match code {
         0x14 => Some("DDR"),
@@ -219,6 +248,7 @@ fn map_smbios_memory_type(code: u32) -> Option<&'static str> {
     }
 }
 
+#[cfg(windows)]
 fn map_cim_memory_type(code: u16) -> Option<&'static str> {
     match code {
         20 => Some("DDR"),
@@ -231,6 +261,7 @@ fn map_cim_memory_type(code: u16) -> Option<&'static str> {
     }
 }
 
+#[cfg(windows)]
 fn map_form_factor(code: u16) -> Option<&'static str> {
     match code {
         8 => Some("DIMM"),

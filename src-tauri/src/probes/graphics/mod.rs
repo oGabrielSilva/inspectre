@@ -2,15 +2,27 @@ mod types;
 
 pub use types::{GpuKind, GpuVendor, GraphicsAdapter, GraphicsInfo, Resolution};
 
+#[cfg(windows)]
 use serde::Deserialize;
+#[cfg(windows)]
 use windows::Win32::Graphics::Dxgi::{
     CreateDXGIFactory1, IDXGIFactory1, DXGI_ADAPTER_FLAG_SOFTWARE,
 };
+#[cfg(windows)]
 use wmi::WMIConnection;
 
 use crate::error::InspectreError;
+#[cfg(windows)]
 use crate::util::format_cim_date;
 
+#[cfg(not(windows))]
+pub fn read_snapshot() -> Result<GraphicsInfo, InspectreError> {
+    Ok(GraphicsInfo {
+        adapters: Vec::new(),
+    })
+}
+
+#[cfg(windows)]
 pub fn read_snapshot() -> Result<GraphicsInfo, InspectreError> {
     let dxgi_adapters = enumerate_dxgi_adapters().unwrap_or_else(|err| {
         tracing::warn!(?err, "falha ao enumerar DXGI adapters");
@@ -30,6 +42,7 @@ pub fn read_snapshot() -> Result<GraphicsInfo, InspectreError> {
     Ok(GraphicsInfo { adapters })
 }
 
+#[cfg(windows)]
 #[derive(Debug)]
 struct DxgiAdapter {
     name: String,
@@ -42,6 +55,7 @@ struct DxgiAdapter {
     is_software: bool,
 }
 
+#[cfg(windows)]
 fn enumerate_dxgi_adapters() -> Result<Vec<DxgiAdapter>, InspectreError> {
     let mut adapters = Vec::new();
     unsafe {
@@ -70,11 +84,13 @@ fn enumerate_dxgi_adapters() -> Result<Vec<DxgiAdapter>, InspectreError> {
     Ok(adapters)
 }
 
+#[cfg(windows)]
 fn decode_wide(buf: &[u16]) -> String {
     let end = buf.iter().position(|&c| c == 0).unwrap_or(buf.len());
     String::from_utf16_lossy(&buf[..end]).trim().to_string()
 }
 
+#[cfg(windows)]
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "PascalCase")]
 struct VideoControllerRow {
@@ -87,6 +103,7 @@ struct VideoControllerRow {
     video_processor: Option<String>,
 }
 
+#[cfg(windows)]
 fn read_video_controllers() -> Result<Vec<VideoControllerRow>, InspectreError> {
     let con = WMIConnection::new()?;
     let rows: Vec<VideoControllerRow> = con.raw_query(
@@ -96,6 +113,7 @@ fn read_video_controllers() -> Result<Vec<VideoControllerRow>, InspectreError> {
     Ok(rows)
 }
 
+#[cfg(windows)]
 fn merge_adapter(dxgi: DxgiAdapter, controllers: &[VideoControllerRow]) -> GraphicsAdapter {
     let key = dxgi.name.to_lowercase();
     let matched = controllers
@@ -140,6 +158,7 @@ fn merge_adapter(dxgi: DxgiAdapter, controllers: &[VideoControllerRow]) -> Graph
     }
 }
 
+#[cfg(windows)]
 fn classify_vendor(vendor_id: u32) -> GpuVendor {
     match vendor_id {
         0x10DE => GpuVendor::Nvidia,
@@ -151,6 +170,7 @@ fn classify_vendor(vendor_id: u32) -> GpuVendor {
     }
 }
 
+#[cfg(windows)]
 fn classify_kind(dxgi: &DxgiAdapter, vendor: GpuVendor) -> GpuKind {
     if dxgi.is_software || vendor == GpuVendor::Microsoft {
         return GpuKind::Software;

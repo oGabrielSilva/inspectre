@@ -1,19 +1,78 @@
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
 mod codenames;
 mod types;
 
-pub use types::{CacheInfo, CacheLevel, CpuInfo, CpuLiveTick};
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
+pub use types::CacheLevel;
+pub use types::{CacheInfo, CpuInfo, CpuLiveTick};
 
 use std::time::Duration;
 
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
 use raw_cpuid::{native_cpuid::CpuIdReaderNative, CacheType, CpuId};
+#[cfg(windows)]
 use serde::Deserialize;
 use sysinfo::{System, MINIMUM_CPU_UPDATE_INTERVAL};
+#[cfg(windows)]
 use wmi::WMIConnection;
 
 use crate::error::InspectreError;
 
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
 type NativeCpuId = CpuId<CpuIdReaderNative>;
 
+#[cfg(not(any(target_arch = "x86", target_arch = "x86_64")))]
+pub fn read_snapshot() -> Result<CpuInfo, InspectreError> {
+    let mut sys = System::new_all();
+    sys.refresh_cpu_all();
+    let threads = sys.cpus().len() as u16;
+    let cores = System::physical_core_count()
+        .map(|c| c as u16)
+        .unwrap_or(threads);
+    let name = sys
+        .cpus()
+        .first()
+        .map(|c| c.brand().trim().to_string())
+        .unwrap_or_else(|| "Desconhecido".to_string());
+    let vendor = sys
+        .cpus()
+        .first()
+        .map(|c| c.vendor_id().trim().to_string())
+        .unwrap_or_else(|| "Desconhecido".to_string());
+
+    Ok(CpuInfo {
+        name,
+        vendor,
+        codename: None,
+        socket: None,
+        process_nm: None,
+        revision: None,
+        family: 0,
+        model: 0,
+        stepping: 0,
+        ext_family: 0,
+        ext_model: 0,
+        cores,
+        threads,
+        hyperthreading: cores > 0 && cores < threads,
+        virtualization_supported: false,
+        base_clock_mhz: None,
+        max_clock_mhz: None,
+        bus_clock_mhz: None,
+        current_clock_mhz: average_current_mhz(&sys),
+        cache: CacheInfo {
+            l1_data: None,
+            l1_inst: None,
+            l2: None,
+            l3: None,
+        },
+        instruction_sets: Vec::new(),
+        tdp_w: None,
+        boot_time_sec: System::boot_time() as u32,
+    })
+}
+
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
 pub fn read_snapshot() -> Result<CpuInfo, InspectreError> {
     let cpuid: NativeCpuId = CpuId::new();
 
@@ -74,12 +133,12 @@ pub fn read_snapshot() -> Result<CpuInfo, InspectreError> {
     let hyperthreading = cores > 0 && cores < threads;
     let boot_time_sec = System::boot_time() as u32;
 
-    let wmi_processor = read_processor_via_wmi().unwrap_or_else(|err| {
-        tracing::warn!(?err, "Win32_Processor indisponível");
-        None
-    });
-
-    let (base_clock_mhz, max_clock_mhz, bus_clock_mhz, socket) = wmi_processor
+    #[cfg(windows)]
+    let (base_clock_mhz, max_clock_mhz, bus_clock_mhz, socket) = read_processor_via_wmi()
+        .unwrap_or_else(|err| {
+            tracing::warn!(?err, "Win32_Processor indisponível");
+            None
+        })
         .map(|p| {
             (
                 p.current_clock_speed,
@@ -89,6 +148,13 @@ pub fn read_snapshot() -> Result<CpuInfo, InspectreError> {
             )
         })
         .unwrap_or((None, None, None, None));
+    #[cfg(not(windows))]
+    let (base_clock_mhz, max_clock_mhz, bus_clock_mhz, socket): (
+        Option<u32>,
+        Option<u32>,
+        Option<u32>,
+        Option<String>,
+    ) = (None, None, None, None);
 
     let current_clock_mhz = average_current_mhz(&sys);
 
@@ -145,6 +211,7 @@ pub fn read_live_tick() -> CpuLiveTick {
         usage_per_core.iter().sum::<f32>() / usage_per_core.len() as f32
     };
 
+    #[cfg(windows)]
     let temperature_c = match read_temperature_via_wmi() {
         Ok(t) => Some(t),
         Err(err) => {
@@ -152,6 +219,8 @@ pub fn read_live_tick() -> CpuLiveTick {
             None
         }
     };
+    #[cfg(not(windows))]
+    let temperature_c: Option<f32> = None;
 
     CpuLiveTick {
         mhz_avg,
@@ -172,6 +241,7 @@ fn average_current_mhz(sys: &System) -> Option<u32> {
     if avg == 0 { None } else { Some(avg as u32) }
 }
 
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
 fn build_revision(family: u8, model: u8, stepping: u8) -> Option<String> {
     if family == 0 && model == 0 && stepping == 0 {
         return None;
@@ -181,6 +251,7 @@ fn build_revision(family: u8, model: u8, stepping: u8) -> Option<String> {
     ))
 }
 
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
 fn collect_instruction_sets(cpuid: &NativeCpuId) -> Vec<String> {
     let mut sets = Vec::new();
 
@@ -244,6 +315,7 @@ fn collect_instruction_sets(cpuid: &NativeCpuId) -> Vec<String> {
     sets
 }
 
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
 fn read_cache_info(cpuid: &NativeCpuId) -> CacheInfo {
     let mut info = CacheInfo {
         l1_data: None,
@@ -279,6 +351,7 @@ fn read_cache_info(cpuid: &NativeCpuId) -> CacheInfo {
     info
 }
 
+#[cfg(all(windows, any(target_arch = "x86", target_arch = "x86_64")))]
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "PascalCase")]
 struct Win32Processor {
@@ -288,6 +361,7 @@ struct Win32Processor {
     socket_designation: Option<String>,
 }
 
+#[cfg(all(windows, any(target_arch = "x86", target_arch = "x86_64")))]
 fn read_processor_via_wmi() -> Result<Option<Win32Processor>, InspectreError> {
     let con = WMIConnection::new()?;
     let rows: Vec<Win32Processor> = con.raw_query(
@@ -296,12 +370,14 @@ fn read_processor_via_wmi() -> Result<Option<Win32Processor>, InspectreError> {
     Ok(rows.into_iter().next())
 }
 
+#[cfg(windows)]
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "PascalCase")]
 struct ThermalZoneTemperature {
     current_temperature: u32,
 }
 
+#[cfg(windows)]
 fn read_temperature_via_wmi() -> Result<f32, InspectreError> {
     let con = WMIConnection::with_namespace_path("root\\WMI")?;
     let rows: Vec<ThermalZoneTemperature> =

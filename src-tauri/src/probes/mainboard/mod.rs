@@ -2,15 +2,47 @@ mod types;
 
 pub use types::{BiosInfo, FirmwareType, MainboardInfo, SecurityInfo};
 
+#[cfg(windows)]
 use serde::Deserialize;
+#[cfg(windows)]
 use windows::Win32::System::SystemInformation;
+#[cfg(windows)]
 use winreg::enums::HKEY_LOCAL_MACHINE;
+#[cfg(windows)]
 use winreg::RegKey;
+#[cfg(windows)]
 use wmi::WMIConnection;
 
 use crate::error::InspectreError;
+#[cfg(windows)]
 use crate::util::format_cim_date;
 
+#[cfg(not(windows))]
+pub fn read_snapshot() -> Result<MainboardInfo, InspectreError> {
+    Ok(MainboardInfo {
+        manufacturer: None,
+        product: None,
+        version: None,
+        serial: None,
+        chassis_manufacturer: None,
+        chassis_model: None,
+        bios: BiosInfo {
+            vendor: None,
+            version: None,
+            smbios_version: None,
+            release_date: None,
+            firmware_type: FirmwareType::Unknown,
+        },
+        security: SecurityInfo {
+            secure_boot: None,
+            tpm_present: false,
+            tpm_enabled: None,
+            tpm_spec_version: None,
+        },
+    })
+}
+
+#[cfg(windows)]
 pub fn read_snapshot() -> Result<MainboardInfo, InspectreError> {
     let baseboard = read_baseboard().unwrap_or_else(|err| {
         tracing::warn!(?err, "Win32_BaseBoard indisponível");
@@ -52,6 +84,7 @@ pub fn read_snapshot() -> Result<MainboardInfo, InspectreError> {
     })
 }
 
+#[cfg(windows)]
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "PascalCase")]
 struct BaseboardRow {
@@ -61,6 +94,7 @@ struct BaseboardRow {
     serial_number: Option<String>,
 }
 
+#[cfg(windows)]
 fn read_baseboard() -> Result<Option<BaseboardRow>, InspectreError> {
     let con = WMIConnection::new()?;
     let rows: Vec<BaseboardRow> = con.raw_query(
@@ -69,6 +103,7 @@ fn read_baseboard() -> Result<Option<BaseboardRow>, InspectreError> {
     Ok(rows.into_iter().next())
 }
 
+#[cfg(windows)]
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "PascalCase")]
 struct ComputerSystemRow {
@@ -76,6 +111,7 @@ struct ComputerSystemRow {
     model: Option<String>,
 }
 
+#[cfg(windows)]
 fn read_chassis() -> Result<Option<ComputerSystemRow>, InspectreError> {
     let con = WMIConnection::new()?;
     let rows: Vec<ComputerSystemRow> =
@@ -83,6 +119,7 @@ fn read_chassis() -> Result<Option<ComputerSystemRow>, InspectreError> {
     Ok(rows.into_iter().next())
 }
 
+#[cfg(windows)]
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "PascalCase")]
 struct BiosRow {
@@ -93,6 +130,7 @@ struct BiosRow {
     release_date: Option<String>,
 }
 
+#[cfg(windows)]
 fn read_bios() -> Result<Option<BiosRow>, InspectreError> {
     let con = WMIConnection::new()?;
     let rows: Vec<BiosRow> = con.raw_query(
@@ -101,6 +139,7 @@ fn read_bios() -> Result<Option<BiosRow>, InspectreError> {
     Ok(rows.into_iter().next())
 }
 
+#[cfg(windows)]
 fn smbios_version_string(b: &BiosRow) -> Option<String> {
     match (b.smbios_major_version, b.smbios_minor_version) {
         (Some(major), Some(minor)) => Some(format!("{major}.{minor}")),
@@ -108,6 +147,7 @@ fn smbios_version_string(b: &BiosRow) -> Option<String> {
     }
 }
 
+#[cfg(windows)]
 fn read_firmware_type() -> FirmwareType {
     let mut value = SystemInformation::FIRMWARE_TYPE(0);
     let result = unsafe { SystemInformation::GetFirmwareType(&mut value) };
@@ -121,6 +161,7 @@ fn read_firmware_type() -> FirmwareType {
     }
 }
 
+#[cfg(windows)]
 fn read_security() -> SecurityInfo {
     let secure_boot = read_secure_boot().unwrap_or_else(|err| {
         tracing::debug!(?err, "Secure Boot indisponível");
@@ -140,6 +181,7 @@ fn read_security() -> SecurityInfo {
     }
 }
 
+#[cfg(windows)]
 fn read_secure_boot() -> Result<Option<bool>, InspectreError> {
     let hklm = RegKey::predef(HKEY_LOCAL_MACHINE);
     let key = hklm
@@ -151,6 +193,7 @@ fn read_secure_boot() -> Result<Option<bool>, InspectreError> {
     Ok(Some(value == 1))
 }
 
+#[cfg(windows)]
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "PascalCase")]
 struct TpmRow {
@@ -158,6 +201,7 @@ struct TpmRow {
     spec_version: Option<String>,
 }
 
+#[cfg(windows)]
 fn read_tpm() -> Result<Option<TpmRow>, InspectreError> {
     let con = WMIConnection::with_namespace_path("ROOT\\CIMV2\\Security\\MicrosoftTpm")?;
     let rows: Vec<TpmRow> =
