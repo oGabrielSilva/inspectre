@@ -2,9 +2,19 @@
 @import '@nuxt/ui';
 
 @theme {
-  --font-sans: 'Raleway', sans-serif;
+  --font-sans: 'Google Sans Flex', 'Raleway', sans-serif;
+  --font-mono: 'Google Sans Code', ui-monospace, SFMono-Regular, monospace;
 }
 
 :root {
   --ui-radius: 0rem;
+}
+
+html {
+  font-optical-sizing: auto;
+  font-variation-settings:
+    'slnt' 0,
+    'wdth' 100,
+    'GRAD' 0,
+    'ROND' 0;
 }
