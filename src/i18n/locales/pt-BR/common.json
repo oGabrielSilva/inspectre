@@ -1,0 +1,12 @@
+{
+  "actions": {
+    "refresh": "Atualizar",
+    "export": "Exportar",
+    "cancel": "Cancelar",
+    "save": "Salvar"
+  },
+  "states": {
+    "loading": "Carregando…",
+    "unavailable": "N/A"
+  }
+}

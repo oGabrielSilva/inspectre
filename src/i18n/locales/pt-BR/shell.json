@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "cpu": "CPU",
+    "mainboard": "Placa-mãe",
+    "memory": "Memória",
+    "graphics": "Gráficos",
+    "bench": "Bench"
+  },
+  "search": {
+    "placeholder": "Buscar"
+  },
+  "toggleSidebar": "Alternar menu"
+}
