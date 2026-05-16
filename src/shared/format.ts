@@ -11,6 +11,18 @@ export function formatCacheSize(kb: number): string {
   return kb >= 1024 ? `${(kb / 1024).toFixed(0)} MB` : `${kb} KB`;
 }
 
+export function formatBytes(bytes: number, fractionDigits = 1): string {
+  if (bytes < 1024) return `${bytes} B`;
+  const kib = bytes / 1024;
+  if (kib < 1024) return `${kib.toFixed(fractionDigits)} KiB`;
+  const mib = kib / 1024;
+  if (mib < 1024) return `${mib.toFixed(fractionDigits)} MiB`;
+  const gib = mib / 1024;
+  if (gib < 1024) return `${gib.toFixed(fractionDigits)} GiB`;
+  const tib = gib / 1024;
+  return `${tib.toFixed(fractionDigits)} TiB`;
+}
+
 export function formatUptime(seconds: number): string {
   if (seconds < 60) return `${seconds}s`;
   const d = Math.floor(seconds / 86400);

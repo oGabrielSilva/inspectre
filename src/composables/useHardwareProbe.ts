@@ -1,5 +1,5 @@
 import { invoke, type InvokeArgs } from '@tauri-apps/api/core';
-import { readonly, ref } from 'vue';
+import { ref } from 'vue';
 
 import { useFeedback } from '@/composables/useFeedback';
 import { logger } from '@/utils/logger';
@@ -45,9 +45,9 @@ export function useHardwareProbe<T>(command: string) {
   }
 
   return {
-    data: readonly(data),
-    loading: readonly(loading),
-    error: readonly(error),
+    data,
+    loading,
+    error,
     load,
   };
 }

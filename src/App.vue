@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n';
 import SectionPlaceholder from '@/components/features/SectionPlaceholder.vue';
 import CpuPage from '@/components/features/cpu/CpuPage.vue';
 import MainboardPage from '@/components/features/mainboard/MainboardPage.vue';
+import MemoryPage from '@/components/features/memory/MemoryPage.vue';
 
 type Section = 'cpu' | 'mainboard' | 'memory' | 'graphics' | 'bench';
 
@@ -29,6 +30,8 @@ const sectionComponent = computed(() => {
       return CpuPage;
     case 'mainboard':
       return MainboardPage;
+    case 'memory':
+      return MemoryPage;
     default:
       return SectionPlaceholder;
   }

@@ -1,0 +1,48 @@
+{
+  "title": "Memória",
+  "sections": {
+    "usage": "Uso",
+    "overview": "Visão geral",
+    "modules": "Slots e módulos"
+  },
+  "fields": {
+    "total": "Total instalado",
+    "used": "Em uso",
+    "available": "Disponível",
+    "free": "Livre",
+    "swap": "Swap",
+    "swapUsed": "Swap em uso",
+    "swapTotal": "Swap total",
+    "maxSupported": "Capacidade máxima",
+    "slots": "Slots populados",
+    "channels": "Configuração de canais",
+    "type": "Tipo predominante",
+    "ecc": "ECC",
+    "module": {
+      "slot": "Slot",
+      "bank": "Banco",
+      "size": "Tamanho",
+      "type": "Tipo",
+      "formFactor": "Form factor",
+      "speed": "Velocidade nominal",
+      "configuredSpeed": "Velocidade configurada",
+      "manufacturer": "Fabricante",
+      "partNumber": "Número de peça",
+      "serial": "Número de série",
+      "voltage": "Voltagem",
+      "width": "Largura de dados"
+    }
+  },
+  "states": {
+    "single": "Single channel",
+    "dual": "Dual channel",
+    "triple": "Triple channel",
+    "quad": "Quad channel",
+    "unknown": "Desconhecido",
+    "supported": "Suportado",
+    "unsupported": "Não suportado"
+  },
+  "actions": {
+    "refresh": "Atualizar"
+  }
+}
