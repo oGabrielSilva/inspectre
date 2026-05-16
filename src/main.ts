@@ -6,6 +6,7 @@ import { createMemoryHistory, createRouter } from 'vue-router';
 import ui from '@nuxt/ui/vue-plugin';
 
 import App from '@/App.vue';
+import bench from '@/i18n/locales/pt-BR/bench.json';
 import common from '@/i18n/locales/pt-BR/common.json';
 import cpu from '@/i18n/locales/pt-BR/cpu.json';
 import errors from '@/i18n/locales/pt-BR/errors.json';
@@ -24,7 +25,7 @@ const i18n = createI18n({
   locale: 'pt-BR',
   fallbackLocale: 'pt-BR',
   messages: {
-    'pt-BR': { common, cpu, errors, graphics, mainboard, memory, shell },
+    'pt-BR': { bench, common, cpu, errors, graphics, mainboard, memory, shell },
   },
 });
 

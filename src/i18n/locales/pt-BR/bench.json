@@ -1,0 +1,39 @@
+{
+  "title": "Bench",
+  "description": "Mede o desempenho do processador com três cargas diferentes.",
+  "sections": {
+    "config": "Configuração",
+    "running": "Executando",
+    "results": "Resultados",
+    "empty": "Nenhum resultado ainda. Rode o bench para começar."
+  },
+  "fields": {
+    "duration": "Duração por fase",
+    "totalDuration": "Duração total",
+    "singleThread": "1 thread",
+    "multiThread": "Multi-thread",
+    "scaling": "Escala"
+  },
+  "workloads": {
+    "sha256": "SHA-256",
+    "aes256": "AES-256",
+    "prime": "Crivo de primos"
+  },
+  "units": {
+    "BytesPerSec": "B/s",
+    "NumbersPerSec": "núm/s"
+  },
+  "phases": {
+    "sha256-single": "SHA-256, 1 thread",
+    "sha256-multi": "SHA-256, multi-thread",
+    "aes256-single": "AES-256, 1 thread",
+    "aes256-multi": "AES-256, multi-thread",
+    "prime-single": "Crivo de primos, 1 thread",
+    "prime-multi": "Crivo de primos, multi-thread",
+    "done": "Concluído"
+  },
+  "actions": {
+    "run": "Rodar bench",
+    "running": "Rodando…"
+  }
+}

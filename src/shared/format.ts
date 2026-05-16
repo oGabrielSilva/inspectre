@@ -11,6 +11,22 @@ export function formatCacheSize(kb: number): string {
   return kb >= 1024 ? `${(kb / 1024).toFixed(0)} MB` : `${kb} KB`;
 }
 
+export function formatThroughput(value: number, unit: string): string {
+  if (unit === 'B/s') {
+    if (value >= 1e9) return `${(value / 1e9).toFixed(2)} GB/s`;
+    if (value >= 1e6) return `${(value / 1e6).toFixed(2)} MB/s`;
+    if (value >= 1e3) return `${(value / 1e3).toFixed(2)} KB/s`;
+    return `${value.toFixed(0)} B/s`;
+  }
+  if (unit === 'numbers/s') {
+    if (value >= 1e9) return `${(value / 1e9).toFixed(2)} G/s`;
+    if (value >= 1e6) return `${(value / 1e6).toFixed(2)} M/s`;
+    if (value >= 1e3) return `${(value / 1e3).toFixed(2)} K/s`;
+    return `${value.toFixed(0)}/s`;
+  }
+  return `${value.toFixed(2)} ${unit}`;
+}
+
 export function formatBytes(bytes: number, fractionDigits = 1): string {
   if (bytes < 1024) return `${bytes} B`;
   const kib = bytes / 1024;

@@ -4,6 +4,7 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import SectionPlaceholder from '@/components/features/SectionPlaceholder.vue';
+import BenchPage from '@/components/features/bench/BenchPage.vue';
 import CpuPage from '@/components/features/cpu/CpuPage.vue';
 import GraphicsPage from '@/components/features/graphics/GraphicsPage.vue';
 import MainboardPage from '@/components/features/mainboard/MainboardPage.vue';
@@ -35,6 +36,8 @@ const sectionComponent = computed(() => {
       return MemoryPage;
     case 'graphics':
       return GraphicsPage;
+    case 'bench':
+      return BenchPage;
     default:
       return SectionPlaceholder;
   }
