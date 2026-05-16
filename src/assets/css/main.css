@@ -18,3 +18,8 @@ html {
     'GRAD' 0,
     'ROND' 0;
 }
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--ui-bg-accented) transparent;
+}
