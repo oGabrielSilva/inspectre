@@ -1,8 +1,10 @@
 [package]
 name = "inspectre"
 version = "0.1.0"
-description = "A Tauri App"
-authors = ["you"]
+description = "Inspeção de hardware no Windows. Reimplementação livre do CPU-Z em Tauri 2, Rust e Vue 3."
+authors = ["Gabriel Silva"]
+license = "MIT"
+repository = "https://github.com/oGabrielSilva/inspectre"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
