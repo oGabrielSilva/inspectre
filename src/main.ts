@@ -9,6 +9,7 @@ import App from '@/App.vue';
 import common from '@/i18n/locales/pt-BR/common.json';
 import cpu from '@/i18n/locales/pt-BR/cpu.json';
 import errors from '@/i18n/locales/pt-BR/errors.json';
+import graphics from '@/i18n/locales/pt-BR/graphics.json';
 import mainboard from '@/i18n/locales/pt-BR/mainboard.json';
 import memory from '@/i18n/locales/pt-BR/memory.json';
 import shell from '@/i18n/locales/pt-BR/shell.json';
@@ -23,7 +24,7 @@ const i18n = createI18n({
   locale: 'pt-BR',
   fallbackLocale: 'pt-BR',
   messages: {
-    'pt-BR': { common, cpu, errors, mainboard, memory, shell },
+    'pt-BR': { common, cpu, errors, graphics, mainboard, memory, shell },
   },
 });
 

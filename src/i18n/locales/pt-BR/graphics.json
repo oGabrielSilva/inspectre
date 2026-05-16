@@ -1,0 +1,40 @@
+{
+  "title": "Gráficos",
+  "sections": {
+    "adapters": "Adaptadores",
+    "noAdapters": "Nenhum adaptador detectado"
+  },
+  "fields": {
+    "name": "Modelo",
+    "vendor": "Fabricante",
+    "kind": "Tipo",
+    "dedicatedMemory": "Memória dedicada",
+    "sharedMemory": "Memória compartilhada",
+    "driverVersion": "Driver",
+    "driverDate": "Data do driver",
+    "videoProcessor": "Processador",
+    "resolution": "Resolução atual",
+    "refreshRate": "Taxa de atualização",
+    "vendorId": "Vendor ID",
+    "deviceId": "Device ID",
+    "subsysId": "SubSystem ID",
+    "revision": "Revisão"
+  },
+  "vendors": {
+    "nvidia": "NVIDIA",
+    "amd": "AMD",
+    "intel": "Intel",
+    "microsoft": "Microsoft",
+    "qualcomm": "Qualcomm",
+    "other": "Outro"
+  },
+  "kinds": {
+    "dedicated": "Dedicada",
+    "integrated": "Integrada",
+    "software": "Software",
+    "unknown": "Desconhecido"
+  },
+  "actions": {
+    "refresh": "Atualizar"
+  }
+}
