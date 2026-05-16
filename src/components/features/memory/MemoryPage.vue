@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
+import { onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import MemoryModulesCard from '@/components/features/memory/MemoryModulesCard.vue';
@@ -15,8 +15,6 @@ const { data, loading, error, load } = useHardwareProbe<MemoryInfo>('memory_info
 const { live } = useMemoryLiveStream(1000);
 
 onMounted(() => load());
-
-const liveValue = computed(() => live.value);
 </script>
 
 <template>
@@ -41,15 +39,13 @@ const liveValue = computed(() => live.value);
       :description="t(`errors.${error.code}.description`)"
     />
 
-    <div v-if="loading && !data" class="grid gap-4 lg:grid-cols-2">
-      <USkeleton v-for="i in 3" :key="i" class="h-48 w-full" :class="i === 1 ? 'lg:col-span-2' : ''" />
+    <div v-if="loading && !data" class="space-y-4">
+      <USkeleton v-for="i in 3" :key="i" class="h-48 w-full" />
     </div>
 
-    <div v-else-if="data" class="grid gap-4 lg:grid-cols-2">
-      <MemoryUsageCard :live="liveValue" class="lg:col-span-2" />
-
+    <div v-else-if="data" class="space-y-4">
+      <MemoryUsageCard :live="live" />
       <MemoryOverviewCard :data="data" />
-
       <MemoryModulesCard :modules="data.modules" />
     </div>
   </div>

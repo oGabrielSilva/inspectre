@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import AppCard from '@/components/ui/AppCard.vue';
-import AppDataRow from '@/components/ui/AppDataRow.vue';
+import AppValue from '@/components/ui/AppValue.vue';
 import { formatBytes } from '@/shared/format';
 import type { MemoryInfo } from '@/shared/generated/MemoryInfo';
 
@@ -30,31 +30,48 @@ const predominantType = computed(() => {
   }
   return best;
 });
+
+const eccLabel = computed(() =>
+  props.data.eccSupported ? t('memory.states.supported') : t('memory.states.unsupported'),
+);
+
+const slotsLabel = computed(() => `${props.data.slotsPopulated} / ${props.data.slotsTotal}`);
 </script>
 
 <template>
   <AppCard :title="t('memory.sections.overview')">
-    <div class="space-y-1">
-      <AppDataRow
-        :label="t('memory.fields.total')"
-        :value="data.totalBytes"
-        :format="(v) => formatBytes(v as number)"
-      />
-      <AppDataRow
-        :label="t('memory.fields.maxSupported')"
-        :value="data.maxSupportedBytes"
-        :format="(v) => formatBytes(v as number)"
-      />
-      <AppDataRow :label="t('memory.fields.type')" :value="predominantType" />
-      <AppDataRow :label="t('memory.fields.channels')" :value="channelLabel" />
-      <AppDataRow
-        :label="t('memory.fields.slots')"
-        :value="`${data.slotsPopulated} / ${data.slotsTotal}`"
-      />
-      <AppDataRow
-        :label="t('memory.fields.ecc')"
-        :value="data.eccSupported ? t('memory.states.supported') : t('memory.states.unsupported')"
-      />
-    </div>
+    <dl class="grid grid-cols-2 gap-x-6 gap-y-2 text-xs sm:grid-cols-3">
+      <div>
+        <dt class="text-dimmed">{{ t('memory.fields.total') }}</dt>
+        <dd class="text-default font-mono tabular-nums">{{ formatBytes(data.totalBytes) }}</dd>
+      </div>
+      <div>
+        <dt class="text-dimmed">{{ t('memory.fields.type') }}</dt>
+        <dd class="text-default">
+          <AppValue :value="predominantType" />
+        </dd>
+      </div>
+      <div>
+        <dt class="text-dimmed">{{ t('memory.fields.channels') }}</dt>
+        <dd class="text-default">{{ channelLabel }}</dd>
+      </div>
+      <div>
+        <dt class="text-dimmed">{{ t('memory.fields.slots') }}</dt>
+        <dd class="text-default font-mono tabular-nums">{{ slotsLabel }}</dd>
+      </div>
+      <div>
+        <dt class="text-dimmed">{{ t('memory.fields.maxSupported') }}</dt>
+        <dd class="text-default font-mono tabular-nums">
+          <AppValue
+            :value="data.maxSupportedBytes"
+            :format="(v) => formatBytes(v as number)"
+          />
+        </dd>
+      </div>
+      <div>
+        <dt class="text-dimmed">{{ t('memory.fields.ecc') }}</dt>
+        <dd class="text-default">{{ eccLabel }}</dd>
+      </div>
+    </dl>
   </AppCard>
 </template>

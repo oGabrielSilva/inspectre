@@ -3,7 +3,6 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import AppCard from '@/components/ui/AppCard.vue';
-import AppDataRow from '@/components/ui/AppDataRow.vue';
 import AppValue from '@/components/ui/AppValue.vue';
 import { formatBytes } from '@/shared/format';
 import type { MemoryLiveTick } from '@/shared/generated/MemoryLiveTick';
@@ -36,31 +35,23 @@ const usageColor = computed(() => {
   <AppCard :title="t('memory.sections.usage')">
     <div v-if="live" class="space-y-4">
       <div>
-        <div class="mb-1 flex items-baseline justify-between">
-          <span class="text-dimmed text-xs">{{ t('memory.fields.used') }}</span>
-          <span class="font-mono text-2xl font-medium tabular-nums">
-            {{ formatBytes(live.usedBytes) }} / {{ formatBytes(live.totalBytes) }}
-          </span>
+        <div class="text-dimmed mb-1 text-xs">{{ t('memory.fields.used') }}</div>
+        <div class="mb-2 font-mono text-2xl font-medium tabular-nums">
+          {{ formatBytes(live.usedBytes) }} / {{ formatBytes(live.totalBytes) }}
         </div>
         <UProgress :model-value="usagePercent" :max="100" size="md" :color="usageColor" />
-        <div class="text-dimmed mt-1 flex justify-between text-xs">
+        <div class="text-dimmed mt-1 flex flex-wrap justify-between gap-2 text-xs">
           <span>{{ usagePercent.toFixed(1) }}%</span>
           <span>{{ t('memory.fields.available') }}: {{ formatBytes(live.availableBytes) }}</span>
         </div>
       </div>
 
       <div v-if="live.swapTotalBytes > 0">
-        <div class="mb-1 flex items-baseline justify-between">
-          <span class="text-dimmed text-xs">{{ t('memory.fields.swap') }}</span>
-          <span class="font-mono text-sm tabular-nums">
-            {{ formatBytes(live.swapUsedBytes) }} / {{ formatBytes(live.swapTotalBytes) }}
-          </span>
+        <div class="text-dimmed mb-1 text-xs">{{ t('memory.fields.swap') }}</div>
+        <div class="mb-2 font-mono text-sm tabular-nums">
+          {{ formatBytes(live.swapUsedBytes) }} / {{ formatBytes(live.swapTotalBytes) }}
         </div>
         <UProgress :model-value="swapPercent" :max="100" size="xs" color="neutral" />
-      </div>
-
-      <div v-else class="space-y-1">
-        <AppDataRow :label="t('memory.fields.swapTotal')" :value="null" />
       </div>
     </div>
 

@@ -56,15 +56,17 @@ pub fn read_snapshot() -> Result<MemoryInfo, InspectreError> {
 }
 
 pub fn read_live_tick() -> MemoryLiveTick {
-    let mut sys = System::new();
+    let mut sys = System::new_all();
     sys.refresh_memory();
-    MemoryLiveTick {
+    let tick = MemoryLiveTick {
         used_bytes: sys.used_memory(),
         available_bytes: sys.available_memory(),
         total_bytes: sys.total_memory(),
         swap_used_bytes: sys.used_swap(),
         swap_total_bytes: sys.total_swap(),
-    }
+    };
+    tracing::trace!(?tick, "memory tick");
+    tick
 }
 
 #[derive(Debug, Deserialize)]

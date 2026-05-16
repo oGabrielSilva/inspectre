@@ -12,15 +12,9 @@ defineProps<{
 
 const { t } = useI18n();
 
-function voltageLabel(v: number | null): string | null {
-  if (v === null || v === undefined) return null;
-  return `${v.toFixed(2)} V`;
-}
-
-function widthLabel(data: number | null, total: number | null): string | null {
-  if (data === null) return null;
-  if (total === null || total === data) return `${data} bits`;
-  return `${data}/${total} bits`;
+function effectiveSpeed(m: MemoryModule): string {
+  const value = m.configuredSpeedMhz ?? m.speedMhz;
+  return value ? formatMhz(value) : t('common.states.unavailable');
 }
 </script>
 
@@ -30,65 +24,45 @@ function widthLabel(data: number | null, total: number | null): string | null {
       <AppValue :value="null" />
     </div>
 
-    <div v-else class="grid gap-3 md:grid-cols-2">
-      <div
-        v-for="(module, index) in modules"
-        :key="`${module.slot}-${index}`"
-        class="border-default rounded-md border p-3"
-      >
-        <div class="mb-2 flex items-center justify-between">
-          <span class="font-mono text-xs font-semibold">{{ module.slot }}</span>
-          <UBadge v-if="module.memoryType" color="primary" variant="subtle" size="xs">
-            {{ module.memoryType }}
-          </UBadge>
-        </div>
-
-        <div class="space-y-1 text-xs">
-          <div class="flex justify-between">
-            <span class="text-dimmed">{{ t('memory.fields.module.size') }}</span>
-            <span class="text-default font-mono tabular-nums">
-              {{ module.sizeBytes ? formatBytes(module.sizeBytes) : '—' }}
-            </span>
-          </div>
-          <div v-if="module.configuredSpeedMhz || module.speedMhz" class="flex justify-between">
-            <span class="text-dimmed">{{ t('memory.fields.module.configuredSpeed') }}</span>
-            <span class="text-default font-mono tabular-nums">
-              {{ formatMhz((module.configuredSpeedMhz ?? module.speedMhz) as number) }}
-            </span>
-          </div>
-          <div
-            v-if="module.speedMhz && module.configuredSpeedMhz && module.speedMhz !== module.configuredSpeedMhz"
-            class="flex justify-between"
+    <div v-else class="overflow-x-auto">
+      <table class="w-full text-xs">
+        <thead>
+          <tr class="text-dimmed border-default border-b text-left">
+            <th class="py-2 pr-3 font-medium">{{ t('memory.fields.module.slot') }}</th>
+            <th class="py-2 pr-3 font-medium">{{ t('memory.fields.module.type') }}</th>
+            <th class="py-2 pr-3 font-medium">{{ t('memory.fields.module.size') }}</th>
+            <th class="py-2 pr-3 font-medium">
+              {{ t('memory.fields.module.configuredSpeed') }}
+            </th>
+            <th class="py-2 pr-3 font-medium">
+              {{ t('memory.fields.module.manufacturer') }}
+            </th>
+            <th class="py-2 font-medium">{{ t('memory.fields.module.partNumber') }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="(module, index) in modules"
+            :key="`${module.slot}-${index}`"
+            class="border-default border-b last:border-0"
           >
-            <span class="text-dimmed">{{ t('memory.fields.module.speed') }}</span>
-            <span class="text-default font-mono tabular-nums">
-              {{ formatMhz(module.speedMhz) }}
-            </span>
-          </div>
-          <div v-if="module.manufacturer" class="flex justify-between">
-            <span class="text-dimmed">{{ t('memory.fields.module.manufacturer') }}</span>
-            <span class="text-default">{{ module.manufacturer }}</span>
-          </div>
-          <div v-if="module.partNumber" class="flex justify-between">
-            <span class="text-dimmed">{{ t('memory.fields.module.partNumber') }}</span>
-            <span class="text-default font-mono">{{ module.partNumber }}</span>
-          </div>
-          <div v-if="module.formFactor" class="flex justify-between">
-            <span class="text-dimmed">{{ t('memory.fields.module.formFactor') }}</span>
-            <span class="text-default">{{ module.formFactor }}</span>
-          </div>
-          <div v-if="widthLabel(module.dataWidth, module.totalWidth)" class="flex justify-between">
-            <span class="text-dimmed">{{ t('memory.fields.module.width') }}</span>
-            <span class="text-default font-mono">
-              {{ widthLabel(module.dataWidth, module.totalWidth) }}
-            </span>
-          </div>
-          <div v-if="voltageLabel(module.voltageV)" class="flex justify-between">
-            <span class="text-dimmed">{{ t('memory.fields.module.voltage') }}</span>
-            <span class="text-default font-mono">{{ voltageLabel(module.voltageV) }}</span>
-          </div>
-        </div>
-      </div>
+            <td class="py-2 pr-3 font-mono">{{ module.slot }}</td>
+            <td class="py-2 pr-3">
+              <AppValue :value="module.memoryType" />
+            </td>
+            <td class="py-2 pr-3 font-mono tabular-nums">
+              {{ module.sizeBytes ? formatBytes(module.sizeBytes) : '—' }}
+            </td>
+            <td class="py-2 pr-3 font-mono tabular-nums">{{ effectiveSpeed(module) }}</td>
+            <td class="py-2 pr-3">
+              <AppValue :value="module.manufacturer" />
+            </td>
+            <td class="py-2 font-mono">
+              <AppValue :value="module.partNumber" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </AppCard>
 </template>
