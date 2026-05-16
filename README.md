@@ -88,3 +88,7 @@ src-tauri/
 ## Licença
 
 [MIT](LICENSE).
+
+---
+
+CPU-Z é marca registrada da CPUID Inc. Inspectre é um projeto independente sem afiliação.
