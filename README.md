@@ -42,7 +42,7 @@ Binário não assinado. Na primeira execução no Windows aparece o aviso "Windo
 
 ## Por quê
 
-Estudo de Tauri com nostalgia de CPU-Z. Aproveitei pra escrever probes reais de hardware via WMI, DXGI e CPUID, sem simular dado nenhum. O nome é trocadilho com `inspect` + `Spectre`, a vulnerabilidade de CPU famosa de 2018.
+Estudo de Tauri com nostalgia de CPU-Z. Aproveitei pra escrever probes reais de hardware via WMI, DXGI e a instrução CPUID do x86, sem simular dado nenhum. O nome é trocadilho com `inspect` + `Spectre`, a vulnerabilidade de CPU famosa de 2018.
 
 ## Status
 
