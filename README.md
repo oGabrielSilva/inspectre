@@ -1,6 +1,6 @@
 # Inspectre
 
-Inspeção de hardware no Windows. Reimplementação livre do CPU-Z em Tauri 2, Rust e Vue 3.
+Reimplementação livre do CPU-Z em Tauri, Rust e Vue.
 
 ![Aba CPU do Inspectre](public/inspectre/cpu.png)
 
