@@ -11,6 +11,7 @@ import common from '@/i18n/locales/pt-BR/common.json';
 import cpu from '@/i18n/locales/pt-BR/cpu.json';
 import errors from '@/i18n/locales/pt-BR/errors.json';
 import graphics from '@/i18n/locales/pt-BR/graphics.json';
+import lab from '@/i18n/locales/pt-BR/lab.json';
 import mainboard from '@/i18n/locales/pt-BR/mainboard.json';
 import memory from '@/i18n/locales/pt-BR/memory.json';
 import shell from '@/i18n/locales/pt-BR/shell.json';
@@ -25,7 +26,7 @@ const i18n = createI18n({
   locale: 'pt-BR',
   fallbackLocale: 'pt-BR',
   messages: {
-    'pt-BR': { bench, common, cpu, errors, graphics, mainboard, memory, shell },
+    'pt-BR': { bench, common, cpu, errors, graphics, lab, mainboard, memory, shell },
   },
 });
 

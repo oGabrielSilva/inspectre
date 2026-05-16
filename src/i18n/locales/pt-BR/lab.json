@@ -1,0 +1,28 @@
+{
+  "icons": {
+    "title": "Gerador de ícone",
+    "description": "Renderiza o ícone num canvas 1024×1024 e grava em src-tauri/icons/icon-source.png. Em seguida, rode no terminal: yarn tauri icon src-tauri/icons/icon-source.png",
+    "fields": {
+      "background": "Cor de fundo",
+      "iconColor": "Cor do ícone",
+      "cornerRadius": "Raio do canto",
+      "iconScale": "Escala do ícone"
+    },
+    "sections": {
+      "preview": "Preview",
+      "previewSizes": "Tamanhos reais",
+      "controls": "Controles"
+    },
+    "actions": {
+      "save": "Exportar source",
+      "saving": "Salvando…"
+    },
+    "saved": {
+      "title": "Source gravado",
+      "description": "Arquivo salvo em {path}. Rode: yarn tauri icon"
+    },
+    "errors": {
+      "save": "Não foi possível salvar o source"
+    }
+  }
+}

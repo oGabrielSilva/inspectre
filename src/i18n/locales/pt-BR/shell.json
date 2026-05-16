@@ -4,7 +4,8 @@
     "mainboard": "Placa-mãe",
     "memory": "Memória",
     "graphics": "Gráficos",
-    "bench": "Bench"
+    "bench": "Bench",
+    "lab": "Lab"
   },
   "search": {
     "placeholder": "Buscar"

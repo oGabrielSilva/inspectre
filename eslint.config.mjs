@@ -3,6 +3,7 @@ import tseslint from 'typescript-eslint';
 import pluginVue from 'eslint-plugin-vue';
 import vueParser from 'vue-eslint-parser';
 import prettier from 'eslint-config-prettier';
+import globals from 'globals';
 
 export default [
   {
@@ -32,15 +33,7 @@ export default [
   {
     languageOptions: {
       globals: {
-        window: 'readonly',
-        document: 'readonly',
-        console: 'readonly',
-        navigator: 'readonly',
-        location: 'readonly',
-        setInterval: 'readonly',
-        clearInterval: 'readonly',
-        setTimeout: 'readonly',
-        clearTimeout: 'readonly',
+        ...globals.browser,
         useToast: 'readonly',
         useAppConfig: 'readonly',
         useFormField: 'readonly',

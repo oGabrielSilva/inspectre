@@ -20,6 +20,7 @@ pub fn run() {
             commands::cpu::start_cpu_live_stream,
             commands::cpu::stop_cpu_live_stream,
             commands::graphics::graphics_info,
+            commands::lab::save_icon_source,
             commands::mainboard::mainboard_info,
             commands::memory::memory_info,
             commands::memory::start_memory_live_stream,

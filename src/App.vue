@@ -7,10 +7,13 @@ import SectionPlaceholder from '@/components/features/SectionPlaceholder.vue';
 import BenchPage from '@/components/features/bench/BenchPage.vue';
 import CpuPage from '@/components/features/cpu/CpuPage.vue';
 import GraphicsPage from '@/components/features/graphics/GraphicsPage.vue';
+import LabIconsPage from '@/components/features/lab/LabIconsPage.vue';
 import MainboardPage from '@/components/features/mainboard/MainboardPage.vue';
 import MemoryPage from '@/components/features/memory/MemoryPage.vue';
 
-type Section = 'cpu' | 'mainboard' | 'memory' | 'graphics' | 'bench';
+type Section = 'cpu' | 'mainboard' | 'memory' | 'graphics' | 'bench' | 'lab';
+
+const isDev = import.meta.env.DEV;
 
 const { t } = useI18n();
 
@@ -18,13 +21,19 @@ const open = ref(true);
 const active = ref<Section>('cpu');
 const filter = ref('');
 
-const sections = computed(() => [
-  { id: 'cpu' as Section, label: t('shell.sections.cpu'), icon: 'i-lucide-cpu' },
-  { id: 'mainboard' as Section, label: t('shell.sections.mainboard'), icon: 'i-lucide-circuit-board' },
-  { id: 'memory' as Section, label: t('shell.sections.memory'), icon: 'i-lucide-memory-stick' },
-  { id: 'graphics' as Section, label: t('shell.sections.graphics'), icon: 'i-lucide-monitor' },
-  { id: 'bench' as Section, label: t('shell.sections.bench'), icon: 'i-lucide-gauge' },
-]);
+const sections = computed(() => {
+  const base = [
+    { id: 'cpu' as Section, label: t('shell.sections.cpu'), icon: 'i-lucide-cpu' },
+    { id: 'mainboard' as Section, label: t('shell.sections.mainboard'), icon: 'i-lucide-circuit-board' },
+    { id: 'memory' as Section, label: t('shell.sections.memory'), icon: 'i-lucide-memory-stick' },
+    { id: 'graphics' as Section, label: t('shell.sections.graphics'), icon: 'i-lucide-monitor' },
+    { id: 'bench' as Section, label: t('shell.sections.bench'), icon: 'i-lucide-gauge' },
+  ];
+  if (isDev) {
+    base.push({ id: 'lab' as Section, label: t('shell.sections.lab'), icon: 'i-lucide-flask-conical' });
+  }
+  return base;
+});
 
 const sectionComponent = computed(() => {
   switch (active.value) {
@@ -38,6 +47,8 @@ const sectionComponent = computed(() => {
       return GraphicsPage;
     case 'bench':
       return BenchPage;
+    case 'lab':
+      return LabIconsPage;
     default:
       return SectionPlaceholder;
   }
