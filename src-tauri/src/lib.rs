@@ -15,6 +15,7 @@ pub fn run() {
             commands::cpu::cpu_info,
             commands::cpu::start_cpu_live_stream,
             commands::cpu::stop_cpu_live_stream,
+            commands::mainboard::mainboard_info,
         ])
         .run(tauri::generate_context!())
         .expect("falha ao iniciar Tauri");
