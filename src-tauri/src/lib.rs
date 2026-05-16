@@ -15,6 +15,7 @@ pub fn run() {
         .manage(CpuLiveState::default())
         .manage(MemoryLiveState::default())
         .invoke_handler(tauri::generate_handler![
+            commands::bench::run_bench,
             commands::cpu::cpu_info,
             commands::cpu::start_cpu_live_stream,
             commands::cpu::stop_cpu_live_stream,

@@ -31,4 +31,8 @@ tracing-subscriber = { version = "0.3.23", features = ["env-filter"] }
 thiserror = "2.0.18"
 tokio = { version = "1.52.3", features = ["full"] }
 winreg = "0.56.0"
+sha2 = "0.11.0"
+aes = "0.9.0"
+cipher = "0.5.1"
+rayon = "1.12.0"
 
