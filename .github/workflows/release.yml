@@ -80,7 +80,7 @@ jobs:
         with:
           tagName: ${{ github.ref_name }}
           releaseName: 'Inspectre ${{ github.ref_name }}'
-          releaseBody: 'Baixe o instalador correspondente à sua plataforma nos artefatos abaixo.'
+          releaseBody: 'Inspeção de hardware no Windows. Baixe o instalador correspondente à sua plataforma abaixo. Binário não assinado: na primeira execução clique em "Mais informações" e "Executar mesmo assim". Probes de hardware específicas de Linux ainda não foram implementadas.'
           releaseDraft: true
           prerelease: false
           args: ${{ matrix.args }}
