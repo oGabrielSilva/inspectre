@@ -3,6 +3,7 @@ use thiserror::Error;
 
 #[derive(Debug, Error, Serialize)]
 #[serde(tag = "code", content = "details", rename_all = "snake_case")]
+#[allow(dead_code)]
 pub enum InspectreError {
     #[error("sensor indisponível: {sensor}")]
     SensorUnavailable { sensor: String },
@@ -10,7 +11,6 @@ pub enum InspectreError {
     #[error("falha WMI: {message}")]
     Wmi { message: String },
 
-    #[allow(dead_code)]
     #[error("falha no probe {domain}: {message}")]
     Probe { domain: String, message: String },
 

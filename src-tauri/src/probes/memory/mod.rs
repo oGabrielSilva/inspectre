@@ -1,5 +1,6 @@
 mod types;
 
+#[allow(unused_imports)]
 pub use types::{ChannelConfig, ChannelInfo, MemoryInfo, MemoryLiveTick, MemoryModule};
 
 #[cfg(windows)]

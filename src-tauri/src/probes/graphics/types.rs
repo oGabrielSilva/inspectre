@@ -31,6 +31,7 @@ pub struct GraphicsAdapter {
 #[derive(Debug, Clone, Copy, Serialize, TS, PartialEq, Eq)]
 #[ts(export)]
 #[serde(rename_all = "lowercase")]
+#[allow(dead_code)]
 pub enum GpuVendor {
     Nvidia,
     Amd,
@@ -43,6 +44,7 @@ pub enum GpuVendor {
 #[derive(Debug, Clone, Copy, Serialize, TS, PartialEq, Eq)]
 #[ts(export)]
 #[serde(rename_all = "lowercase")]
+#[allow(dead_code)]
 pub enum GpuKind {
     Dedicated,
     Integrated,

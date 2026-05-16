@@ -1,5 +1,6 @@
 mod types;
 
+#[allow(unused_imports)]
 pub use types::{GpuKind, GpuVendor, GraphicsAdapter, GraphicsInfo, Resolution};
 
 #[cfg(windows)]

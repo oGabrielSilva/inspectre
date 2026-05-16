@@ -29,6 +29,7 @@ pub struct BiosInfo {
 #[derive(Debug, Clone, Copy, Serialize, TS, PartialEq, Eq)]
 #[ts(export)]
 #[serde(rename_all = "lowercase")]
+#[allow(dead_code)]
 pub enum FirmwareType {
     Bios,
     Uefi,
