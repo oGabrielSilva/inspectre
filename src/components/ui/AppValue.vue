@@ -14,7 +14,9 @@ const display = computed(() => {
   if (props.value === null || props.value === undefined) {
     return t('common.states.unavailable');
   }
-  const formatted = props.format ? props.format(props.value) : String(props.value);
+  const formatted = props.format
+    ? props.format(props.value as NonNullable<unknown>)
+    : String(props.value);
   return props.unit ? `${formatted} ${props.unit}` : formatted;
 });
 

@@ -45,6 +45,9 @@ function formatTemperature(value: NonNullable<unknown>) {
           <AppValue :value="temperatureC" :format="formatTemperature" />
         </span>
         <span class="text-dimmed text-xs">{{ t('cpu.fields.sensors.temperature') }}</span>
+        <span v-if="temperatureC === null" class="text-dimmed text-xs text-center max-w-xs">
+          {{ t('cpu.fields.sensors.temperatureUnavailable') }}
+        </span>
       </div>
 
       <AppDataRow

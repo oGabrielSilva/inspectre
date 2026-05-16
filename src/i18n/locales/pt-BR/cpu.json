@@ -48,6 +48,7 @@
     },
     "sensors": {
       "temperature": "Temperatura",
+      "temperatureUnavailable": "Requer driver dedicado, previsto para versões futuras.",
       "uptime": "Tempo ligado"
     }
   },
